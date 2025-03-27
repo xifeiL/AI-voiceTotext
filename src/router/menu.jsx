@@ -8,50 +8,36 @@ export const icon = (src) => (
 export const menu = async () => {
   const resources = [
     {
-      "id": "11272107578916864",
-      "name": "测试文件",
-      "code": "operation",
+      "id": "11187059925811200",
+      "name": "AI电话纪要",
+      "code": null,
       "ids": null,
-      "menuIcon": null,
-      "path": null,
+      // "menuIcon": <AppstoreOutlined />,
+      "path": "/main/aiMeetingMinutes",
       "paths": null,
-      "parentId": "1",
-      "type": 0,
-      "sort": 20,
+      "parentId": null,
+      "type": 1,
+      "sort": 1,
       "level": 1,
-      children:[
-        {
-          "id": "10711834179821568",
-          "name": "我的",
-          "code": "messageManage",
-          "ids": null,
-          "menuIcon": null,
-          "path": "null",
-          "paths": null,
-          "parentId": "11272107578916864",
-          "type": 0,
-          "sort": 20,
-          "level": 2,
-          children:[
-            {
-              "id": "11187059925811200",
-              "name": "我的测试页面",
-              "code": null,
-              "ids": null,
-              "menuIcon": null,
-              "path": "/main/domain",
-              "paths": null,
-              "parentId": "10711834179821568",
-              "type": 1,
-              "sort": 20,
-              "level": 3,
-              "children": null,
-              "pageIndex": null,
-              "pageSize": null
-            }
-          ]
-        }
-      ]
+      "children": null,
+      "pageIndex": null,
+      "pageSize": null
+    },
+    {
+      "id": "11187059925811201",
+      "name": "模板配置",
+      "code": null,
+      "ids": null,
+      // "menuIcon": <AppstoreOutlined />,
+      "path": "/main/templateConfiguration",
+      "paths": null,
+      "parentId": null,
+      "type": 1,
+      "sort": 1,
+      "level": 1,
+      "children": null,
+      "pageIndex": null,
+      "pageSize": null
     }
   ]
   return resources

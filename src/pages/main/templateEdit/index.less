@@ -1,0 +1,132 @@
+.page-container {
+    background-color: #ffffff;
+    padding: 60px;
+
+
+    .header {
+        height: 80px;
+        display: flex;
+        align-items: center;
+
+        h1 {
+            flex: 1;
+            font-size: 18px;
+            font-weight: 600;
+        }
+    }
+
+
+    .content {
+        display: flex;
+
+        .content-left {
+            flex: 2;
+            height: fit-content;
+            margin-right: 30px;
+            position: relative;
+
+            textarea {
+                min-height: 500px;
+            }
+
+            button {
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                color: blue;
+            }
+        }
+
+        .content-right {
+            flex: 3;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+
+
+            .top {
+                background-color: rgba(0, 0, 0, .1);
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                border-radius: 10px;
+                position: relative;
+
+                h3 {
+                    padding-left: 15px;
+                    line-height: 40px;
+                    margin: 0;
+                }
+
+                .step {
+                    flex: 1;
+                    border-radius: 10px;
+                    border: 1px solid #eeeeee;
+                    background-color: #ffffff;
+                    padding: 40px 15px;
+                    line-height: 30px;
+                }
+
+                .num-tag {
+                    position: absolute;
+                    bottom: 10px;
+                    left: 15px;
+                    background-color: #f2f2f2;
+                    color: #a7a7a7;
+                    border-radius: 3px;
+                    font-size: 12px;
+                    padding: 5px 20px;
+                }
+
+
+            }
+
+            .top::after {
+                content: '';
+                display: inline-block;
+                height: 3px;
+                width: 40px;
+                background-color: #a7a7a7;
+                border-radius: 2px;
+                position: absolute;
+                bottom: 3px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .sub-title {
+                margin: 20px 0 10px 15px;
+                color: #a7a7a7;
+            }
+
+            .bottom {
+                border-radius: 10px;
+                border: 1px solid #eeeeee;
+                padding: 15px 15px 80px;
+                position: relative;
+
+
+                .actions {
+                    position: absolute;
+                    left: 15px;
+                    bottom: 15px;
+                    display: flex;
+                    column-gap: 10px;
+                }
+
+
+            }
+
+        }
+    }
+
+
+    .footer {
+        margin-top: 15px;
+        display: flex;
+        justify-content: flex-end;
+        column-gap: 20px;
+    }
+
+
+}
