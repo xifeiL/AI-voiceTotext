@@ -6,6 +6,8 @@ import dayjs from 'dayjs'
 import React, { useEffect } from 'react'
 import Watermark from '@/components/Watermark'
 import { toLogin } from '@/shared'
+import { useLocation } from 'react-router-dom';
+import qs from 'query-string'
 
 /**
  * 
@@ -13,7 +15,7 @@ import { toLogin } from '@/shared'
  * @param {String} filename 
  * @returns 
  */
-const downloadFileFromBlob = (data, filename = '')=>{
+const downloadFileFromBlob = (data, filename = '') => {
   if (!data) return
   const url = URL.createObjectURL(new Blob([data]))
   const link = document.createElement('a')
@@ -28,14 +30,14 @@ const downloadFileFromBlob = (data, filename = '')=>{
  * @param {any} data 
  * @returns 'string' | 'number' | 'object' | 'array' | 'function' | 'undefined' | 'null' | 'date' | 'regexp' | .....
  */
-const getType = (data)=>{
-    return Object.prototype.toString.call(data).slice(8, -1).toLowerCase()
+const getType = (data) => {
+  return Object.prototype.toString.call(data).slice(8, -1).toLowerCase()
 }
 /**
  * 过滤掉空字段
  * @param {any} data 
  */
-const filterEmpty = (data)=>{
+const filterEmpty = (data) => {
   const type = getType(data)
   if (type === 'array') {
     return data.map(() => filterEmpty(i))
@@ -56,7 +58,7 @@ const filterEmpty = (data)=>{
 /**
  * 当前代码所在环境
  */
-const getEnv = ()=>{
+const getEnv = () => {
   const origin = window.location.origin
   if (origin.includes('prod')) return 'prod' // 汇丰uat 是预生产
   if (origin.includes('uat')) return 'uat'
@@ -71,7 +73,7 @@ const getEnv = ()=>{
  * @param {String} name  要获取的参数名 若为空 将返回所有参数
  * @param {Object} querys {[key:String]}  要获取的参数名 若为空 将返回所有参数
  */
-export const getUrlQuery = (name='')=>{
+export const getUrlQuery = (name = '') => {
   let querys = {}
   location.search
     .substr(1)
@@ -82,12 +84,12 @@ export const getUrlQuery = (name='')=>{
   return name ? querys[name] : querys
 }
 
-export const isMac = ()=>{
+export const isMac = () => {
   const macKeys = ['Mac']
   return macKeys.some((i) => navigator.userAgent.includes(i))
 }
 
-export const beautyScrollbar = ()=>{
+export const beautyScrollbar = () => {
   const style = document.createElement('style')
   style.type = 'text/css'
   style.innerText = `
@@ -104,7 +106,7 @@ export const beautyScrollbar = ()=>{
   document.head.appendChild(style)
 }
 
-export const beforeCreateApp = async()=>{
+export const beforeCreateApp = async () => {
   const querys = getUrlQuery()
   if (!isMac()) {
     beautyScrollbar()
@@ -139,9 +141,14 @@ export async function logout() {
   })
 }
 
-export const toPath = (path='/')=>{
+export const toPath = (path = '/') => {
   location.hash = `#${path}`
 }
 
+export function useQuery() {
+  const { search } = useLocation();
+  return qs.parse(search);
+}
 
-export {downloadFileFromBlob, getType, filterEmpty, getEnv}
+
+export { downloadFileFromBlob, getType, filterEmpty, getEnv }

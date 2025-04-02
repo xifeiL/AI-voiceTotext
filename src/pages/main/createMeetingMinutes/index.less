@@ -1,5 +1,7 @@
+@import '@/styles/antdComponentVars';
+
 .page-container {
-    padding: 60px 30px;
+    padding: 20px 30px;
     background-color: #ffffff;
 
 
@@ -11,7 +13,7 @@
 
 
         .content-left {
-            width: 400px;
+            width: 200px;
         }
 
         .content-right {
@@ -28,20 +30,298 @@
                 border-bottom: 1px solid #eeeeee;
 
                 p {
-
+                    margin: 0;
+                    padding: 0;
                     margin-top: 10px;
                     font-size: 12px;
                     color: #a7a7a7;
+
+                    span {
+                        margin-left: 30px;
+                    }
                 }
             }
 
 
-            .record-area {
-            
-                margin-top: 10px;
-                min-height: 300px;
+            .content-container {
+                padding: 30px 10px 10px;
+                height: 400px;
+                overflow-y: auto;
+                position: relative;
+
+                .content-view {
+
+                    
+                }
+
+
+                .my-note {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    box-shadow: none;
+                    resize: none;
+                }
+
+                .tabs {
+                    position: absolute;
+                    display: flex;
+                    top: 5px;
+                    left: 20px;
+                    height: 20px;
+
+
+                    .loading {
+                        display: flex;
+                        align-items: center;
+
+                        svg {
+                            font-size: 13px;
+                        }
+
+                        span {
+                            margin-left: 10px;
+                            color: #34c759;
+
+                        }
+                    }
+
+
+                    .tab {
+                        padding: 0 20px;
+                        position: relative;
+                        cursor: pointer;
+                        color: #a7a7a7;
+                    }
+
+                    .active {
+                        color: #000000;
+                    }
+
+                    .tab::after {
+                        content: '';
+                        height: 2px;
+                        display: block;
+                        position: absolute;
+                        bottom: -4px;
+                        left: 50%;
+                        width: 100%;
+                        transform: translateX(-50%);
+                        background-color: rgba(0, 0, 0, .1);
+                    }
+                    .active::after {
+                        background-color: rgba(0, 0, 0, 1);
+                    }
+                }
             }
+
+
+            .content-footer {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10px 0 0;
+                column-gap: 10px;
+
+                &>div {
+                    position: relative;
+                    z-index: 99;
+                    cursor: pointer;
+                    flex-shrink: 0;
+                }
+
+                &>div:hover {
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                }
+
+                &>div:not(.recording, .generat):active {
+                    left: 1px;
+                    top: 1px;
+                }
+
+
+                .generate {
+                    height: 72px;
+                    padding: 0 27px;
+                    border-radius: 20px;
+                    background-color: #34c759;
+                    position: relative;
+
+                    .button-content {
+                        height: 100%;
+                        color: #f2f2f2;
+                        line-height: 72px;
+                    }
+
+
+                    .meeting-type {
+                        width: 100px;
+                        position: absolute;
+                        top: 78px;
+                        background-color: #eeeeee;
+                        padding: 5px 10px;
+                        border-radius: 8px;
+                        font-size: 12px;
+                        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+
+
+
+                        .choose {
+                            height: 25px;
+                            line-height: 25px;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        }
+
+                        .option-item {
+                            color: #a7a7a7;
+                            border-top: 1px solid #ffffff;
+                            height: 25px;
+                            line-height: 25px;
+                        }
+                    }
+                }
+
+                .upload-record-file {
+                    height: 70px;
+                    width: 70px;
+                    border-radius: 50%;
+                    background-color: #ff0303;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+
+                    svg {
+                        color: #f2f2f2;
+                        font-size: 40px;
+                    }
+                }
+
+
+                .start-record {
+                    height: 70px;
+                    width: 70px;
+                    border-radius: 50%;
+                    border: 1px solid #000000;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .start-record::before {
+                    content: '';
+                    display: block;
+                    height: 60px;
+                    width: 60px;
+                    border-radius: 50%;
+                    background-color: #ff0303;
+                }
+
+
+                .recording {
+                    display: flex;
+                    align-items: center;
+                    height: 72px;
+                    padding: 0 17px 0 25px;
+                    border-radius: 20px;
+                    column-gap: 17px;
+                    color: #ffffff;
+                    background-color: #34c759;
+
+                    svg {
+                        font-size: 20px;
+                    }
+                }
+
+                .record-detail {
+                    color: #111111;
+                    background-color: #f2f2f2;
+                }
+
+
+                .pause,
+                .play {
+                    height: 72px;
+                    width: 72px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #f2f2f2;
+                    border-radius: 20px;
+
+                    img {
+                        height: 40px;
+                        width: 40px;
+                    }
+                }
+
+
+                .stop {
+                    height: 72px;
+                    width: 72px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 20px;
+                    background-color: #ff0303;
+                }
+
+                .stop div {
+                    content: '';
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 40px;
+                    width: 40px;
+                    border: 3px solid #f2f2f2;
+                    border-radius: 50%;
+
+                }
+
+                .stop div::before {
+                    content: '';
+                    display: block;
+                    height: 15px;
+                    width: 15px;
+                    border: 3px solid #f2f2f2;
+                    border-radius: 1px;
+                }
+            }
+
+
         }
+
     }
 
+}
+
+
+.translate-content-modal {
+    position: absolute;
+    z-index: 99999;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 450px;
+    border: 1px solid #f2f2f2;
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    &>h1 {
+        border-bottom: 1px solid #eeeeee;
+        padding-bottom: 10px;
+    }
+
+    &>div {
+        flex-shrink: 0;
+        flex: 1;
+        overflow-y: auto;
+    }
 }
