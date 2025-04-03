@@ -1,9 +1,17 @@
-import React, { useEffect } from "react";
-import { DownloadOutlined, SignatureOutlined, CopyOutlined, DeploymentUnitOutlined,FileTextOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from "react";
+import { DownloadOutlined, SignatureOutlined, CopyOutlined, DeploymentUnitOutlined, FileTextOutlined } from '@ant-design/icons';
 import { Table, Button, Input } from 'antd'
+import callNet from '@/servers/callNet'
+
 import "./index.less"
 
 export default function () {
+
+    const [text, setText] = useState('')
+
+    const getStep = async () => {
+        const res = callNet.post(`/system_cue?content=${text}`)
+    }
 
     return (
         <div className="page-container">
@@ -15,8 +23,8 @@ export default function () {
             <div className="content">
 
                 <div className="content-left">
-                    <Input.TextArea></Input.TextArea>
-                    <Button type="text" icon={<DeploymentUnitOutlined />}>生成</Button>
+                    <Input.TextArea placeholder="请在此处输入..." value={text} onChange={(e) => setText(e.target.value)}></Input.TextArea>
+                    <Button type="text" icon={<DeploymentUnitOutlined />} onClick={getStep}>生成</Button>
                 </div>
 
                 <div className="content-right">

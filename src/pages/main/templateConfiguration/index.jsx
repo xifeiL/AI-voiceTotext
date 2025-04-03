@@ -70,7 +70,7 @@ export default function TemplateConfiguration () {
                     <Button type="primary" icon={<DownloadOutlined />} size="middle" onClick={createTemplate}>创建模板</Button>
                 </div>
             </div>
-            <Table dataSource={dataSource} columns={columns} />;
+            <Table dataSource={dataSource} columns={columns} />
         </div>
     )
 }

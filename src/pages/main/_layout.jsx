@@ -50,7 +50,7 @@ const getStorage = (name) => {
 function getItem(label,key,icon,children) {
     return {
       key,
-      icon: undefined, // 隐藏菜单图标
+      icon,//: undefined, // 隐藏菜单图标
       children,
       label,
     }
@@ -78,6 +78,7 @@ function getItem(label,key,icon,children) {
   }
 
   const menuWithKey = genMenuKey(await menu())
+
 
   const items = (menuWithKey) => {
     return menuWithKey.map((i) => {
@@ -159,7 +160,9 @@ function getItem(label,key,icon,children) {
   const Aside = observer((props)=>{
     const [searchText, setSearchText] = useState('')
     const [menuItems, setMenuItems] = useState(MENU_ITEMS)
+
     const [openKeys, setOpenKeys] = useState([])
+
 
     function onSearchTextChange(ev) {
         const text = ev.target.value
@@ -186,7 +189,7 @@ function getItem(label,key,icon,children) {
         width={240}>
         <div className='sider-top'>
             < img />
-            <span>汇丰金科</span>
+            <span>AI Assistant管理系统</span>
         </div>
         <div className='sider-menu-search'>
             <Input
@@ -246,7 +249,7 @@ export default function MainLayout(props){
     
   const location = useLocation()
   const currentMenu = getNodeFromTree(location.pathname, menuWithKey, 'path')
-  // const [ready, setReady] = useState(false)
+  const [ready, setReady] = useState(false)
   // 返回所有带有children的id
   const getAllChildrenId = (data) => {
     return data.reduce((a, b) => {

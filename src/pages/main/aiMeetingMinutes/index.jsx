@@ -28,14 +28,17 @@ export default function AiMeetingMinutes() {
 
     useEffect(() => {
         // history.push(`/main/createMeetingMinutes?meeting_id=${'123'}&customer=${'王二麻子'}&title=${'简简单单一个小会议'}&meeting_type=${3}`)
-
         getList()
         getTemplateOptions()
     }, [])
 
-    const renderActions = () => {
+    const preview = (e,{meeting_id}) => {
+        history.push(`/main/createMeetingMinutes?meeting_id=${meeting_id}`)
+    }
+
+    const renderActions = (e, record) => {
         return <div className="table-actions">
-            <a className="edit">查看</a>
+            <a className="edit" onClick={() => preview(e, record)}>查看</a>
             <a className="delete">删除</a>
         </div>
     }
@@ -123,7 +126,7 @@ export default function AiMeetingMinutes() {
                         <Button type="primary" icon={<DownloadOutlined />} size="middle" onClick={onCreateClick}>新建会议纪要</Button>
                     </div>
                 </div>
-                <Table dataSource={listData} columns={columns} />;
+                <Table dataSource={listData} columns={columns} />
             </div>
 
             <Modal title="选择会议纪要类型" open={isModalOpen} centered footer={null} onCancel={() => setIsModalOpen(false)}>
@@ -133,7 +136,7 @@ export default function AiMeetingMinutes() {
                     labelCol={{ span: 7 }}
                     wrapperCol={{ span: 16 }}
                     // style={{ maxWidth: 600 }}
-                    initialValues={{ employee: '吴用' }}
+                    initialValues={{ employee: '赵小小' }}
                     onFinish={submitCreate}
                     autoComplete="off"
                 >
@@ -142,7 +145,7 @@ export default function AiMeetingMinutes() {
                         name="title"
                         rules={[{ required: true, message: '请输入纪要标题' }]}
                     >
-                        <Input placeholder="请输入纪要标题"/>
+                        <Input placeholder="请输入纪要标题" />
                     </Form.Item>
 
                     <Form.Item
@@ -150,7 +153,7 @@ export default function AiMeetingMinutes() {
                         name="template_id"
                         rules={[{ required: true, message: '请选择模板' }]}
                     >
-                        <Select options={OPTIONS_TEMPLATE} placeholder="请选择模板"/>
+                        <Select options={OPTIONS_TEMPLATE} placeholder="请选择模板" />
                     </Form.Item>
 
                     <Form.Item
@@ -158,21 +161,21 @@ export default function AiMeetingMinutes() {
                         name="customer"
                         rules={[{ required: true, message: '请输入客户姓名' }]}
                     >
-                        <Input placeholder="请输入客户姓名"/>
+                        <Input placeholder="请输入客户姓名" />
                     </Form.Item>
                     <Form.Item
                         label="员工"
                         name="employee"
                         rules={[{ required: true, message: '请填写员工姓名' }]}
                     >
-                        <Input readOnly placeholder="请填写员工姓名"/>
+                        <Input readOnly placeholder="请填写员工姓名" />
                     </Form.Item>
                     <Form.Item
                         label="纪要方式"
                         name="meeting_type"
                         rules={[{ required: true, message: '请选择纪要方式' }]}
                     >
-                        <Select options={OPTIONS_RECORDS} placeholder="请选择纪要方式"/>
+                        <Select options={OPTIONS_RECORDS} placeholder="请选择纪要方式" />
                     </Form.Item>
 
                     <div className="actions_button">

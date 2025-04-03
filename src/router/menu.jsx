@@ -1,10 +1,7 @@
 import React, { Children } from 'react'
 import { get } from '@/shared'
-export const icon = (src) => (
-  <span style={{ paddingTop: '1px' }}>
-    < img src={src} />
-  </span>
-)
+import { FundOutlined, AppstoreAddOutlined } from '@ant-design/icons'
+export const icon = (iconEle) => iconEle
 export const menu = async () => {
   const resources = [
     {
@@ -12,7 +9,7 @@ export const menu = async () => {
       "name": "AI电话纪要",
       "code": null,
       "ids": null,
-      // "menuIcon": <AppstoreOutlined />,
+      "menuIcon": <FundOutlined />,
       "path": "/main/aiMeetingMinutes",
       "paths": null,
       "parentId": null,
@@ -28,7 +25,7 @@ export const menu = async () => {
       "name": "模板配置",
       "code": null,
       "ids": null,
-      // "menuIcon": <AppstoreOutlined />,
+      "menuIcon": <AppstoreAddOutlined />,
       "path": "/main/templateConfiguration",
       "paths": null,
       "parentId": null,

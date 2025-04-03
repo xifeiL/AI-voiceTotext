@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DownloadOutlined, PhoneOutlined, AudioOutlined, FileDoneOutlined, LeftOutlined, UpOutlined, CheckOutlined, DownOutlined, UploadOutlined, LoadingOutlined } from '@ant-design/icons';
+import { DownloadOutlined, PhoneOutlined, UserOutlined, AudioOutlined, FileDoneOutlined, CopyOutlined, LeftOutlined, UpOutlined, CheckOutlined, DownOutlined, UploadOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Table, Button, Modal, Input, message } from 'antd'
 import "./index.less"
 import { useHistory, useParams } from 'react-router-dom'
@@ -8,6 +8,9 @@ import callNet from '@/servers/callNet'
 import { startRecording } from './sendRecord'
 import pause from '@/assets/pause.png'
 import play from '@/assets/play.png'
+import dayjs from "dayjs";
+import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
+
 
 export default function () {
     const [uploading, setUploading] = useState(false)
@@ -16,18 +19,21 @@ export default function () {
     const [translateText, setTranslateText] = useState(false)
     const [messageApi, contextHolder] = message.useMessage();
     const [uploadSuccess, setUploadSuccess] = useState(false)
-    const { meeting_id, customer, title, meeting_type } = useQuery();
+    let { meeting_id, customer, title, meeting_type } = useQuery();
     const [OPTIONS_TEMPLATE, setTemplateOptions] = useState([]);
     const [chooseTemplate, setChooseTemplate] = useState({})
     const [generating, setGenerating] = useState(false)
     const [generateNote, setGenerateNote] = useState('')
     const [myNote, setMyNote] = useState('')
+    const [recording, setRecording] = useState(false)
+    const now = dayjs().format('YYYY-MM-DD HH:mm:ss')
 
     const [chooseTab, setChooseTab] = useState('0')
 
 
     useEffect(() => {
         getTemplateOptions()
+        getDetails()
     }, [])
     const history = useHistory()
 
@@ -37,6 +43,14 @@ export default function () {
 
     const testRecord = () => {
         startRecording()
+    }
+
+    const getDetails = async () => {
+        const { notes } = await callNet.get('/note_details', { meeting_id })
+        customer = notes.customer
+        title = notes.customer
+        meeting_type = notes.customer
+        debugger
     }
 
     const getTemplateOptions = async () => {
@@ -109,6 +123,7 @@ export default function () {
     }
 
     const generate = async () => {
+        if (generating) return;
         try {
             setGenerating(true)
             const { result } = await callNet.post('/analyze', {
@@ -116,7 +131,12 @@ export default function () {
                 cue: '',
                 meeting_id
             })
-            setGenerateNote(result)
+            messageApi.open({
+                type: 'success',
+                content: 'ai强化笔记已经生成',
+            });
+            const htmlRes = marked.parse(result)
+            setGenerateNote(htmlRes)
         } catch (err) {
 
         } finally {
@@ -127,6 +147,27 @@ export default function () {
 
     const chooseTabFunc = (tab) => {
         setChooseTab(tab)
+    }
+
+    function copyToClipboard(text) {
+        // 现代方法：使用 Clipboard API
+        if (navigator.clipboard) {
+            return navigator.clipboard.writeText(text)
+                .then(() => {
+                    messageApi.open({
+                        type: 'success',
+                        content: '已复制ai强化笔记',
+                    });
+                    return true
+                })
+                .catch(async (err) => {
+                    // 尝试回退到旧方法
+                    // console.error('Clipboard API 失败，尝试旧方法:', err);
+                });
+        } else {
+            // 直接使用旧方法
+            // return Promise.resolve(fallbackCopyText(text));
+        }
     }
 
 
@@ -141,19 +182,20 @@ export default function () {
                 <div className="content-center">
                     <div className="content-header">
                         <h1>{title}</h1>
-                        <p>2025-01-12 09:12:44 <span>{customer}</span></p>
+                        <p>{now}<span><UserOutlined style={{ marginRight: '5px' }} />{customer}</span></p>
                     </div>
 
                     <div className="content-container">
                         <div className="tabs">
-                            {generating ?
-                                <div className="loading"> <LoadingOutlined /> <span>正在生成中...</span></div>
-                                :
-                                generateNote ?
-                                    <>
-                                        <div onClick={() => chooseTabFunc('1')} className={chooseTab === '1' ? 'tab active' : 'tab'}>强化笔记</div>
-                                        <div onClick={() => chooseTabFunc('0')} className={chooseTab === '0' ? 'tab active' : 'tab'}>我的笔记</div>
-                                    </> : null
+                            {
+                                generating ?
+                                    <div className="loading"> <LoadingOutlined /> <span>正在生成中...</span></div>
+                                    :
+                                    generateNote ?
+                                        <>
+                                            <div onClick={() => chooseTabFunc('1')} className={chooseTab === '1' ? 'tab active' : 'tab'}>强化笔记</div>
+                                            <div onClick={() => chooseTabFunc('0')} className={chooseTab === '0' ? 'tab active' : 'tab'}>我的笔记</div>
+                                        </> : null
                             }
 
 
@@ -161,9 +203,12 @@ export default function () {
                         <div className="content-view">
                             {
                                 chooseTab === '0' ?
-                                    <Input.TextArea className="my-note" value={myNote} onChange={(e) => setMyNote(e.target.value)}></Input.TextArea>
+                                    <Input.TextArea className="my-note" placeholder="请在此处输入笔记..." value={myNote} onChange={(e) => setMyNote(e.target.value)}></Input.TextArea>
                                     :
-                                    <div className="note-pro">{generateNote}</div>
+                                    [
+                                        <div className="note-pro" dangerouslySetInnerHTML={{ __html: generateNote }}></div>,
+                                        <div className="copy-button" onClick={() => copyToClipboard(generateNote)}><CopyOutlined />复制AI内容</div>
+                                    ]
                             }
 
                         </div>
@@ -187,7 +232,7 @@ export default function () {
                                             </div>}
                                         </div>,
                                         <div className="generate">
-                                            <div className="button-content" onClick={generate}>AI生成会议纪要</div>
+                                            <div className={generating ? "button-content disabled" : "button-content"} onClick={generate}>{generating ? '会议纪要生成中' : 'AI生成会议纪要'}</div>
                                             <div className="meeting-type">
                                                 <div className="choose" onClick={toggleShowOptions}>{chooseTemplate.label || '请选择'}  {showOptions ? <DownOutlined /> : <UpOutlined />}</div>
                                                 {showOptions ? OPTIONS_TEMPLATE.map(e => {
